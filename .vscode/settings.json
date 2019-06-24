@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/ca1f4b05-09a4-46ce-9093-b8d3814f02d9/resourceGroups/Max8/providers/Microsoft.Web/sites/max8ng",
+    "appService.deploySubpath": "publish"
+}
