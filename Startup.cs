@@ -5,6 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using AutoMapper;
+using System;
+using Swashbuckle.AspNetCore.Swagger;
+using max8ng.Core.Services.DomainService;
+using max8ng.Infrastructure.Externalservice;
 
 namespace max8ng
 {
@@ -20,6 +25,30 @@ namespace max8ng
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            services.AddHttpClient<IGetProductsQuery, ProjectService>();
+
+            services.AddSwaggerGen((options) =>
+            {
+                options.SwaggerDoc("v1",
+                    new Info
+                    {
+                        Title = "Max 8 api",
+                        Version = "v1",
+                        Description = "API to manage max8 contents",
+                        TermsOfService = "None",
+                        Contact = new Contact()
+                        {
+                            Email = "mail@bartmoonen.be",
+                            Name = "Bart Moonen"
+                        }
+                    }
+                    );
+
+                options.DescribeAllEnumsAsStrings();
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // In production, the Angular files will be served from this directory
@@ -54,6 +83,16 @@ namespace max8ng
                     template: "{controller}/{action=Index}/{id?}");
             });
 
+            app.UseSwagger(c =>
+            {
+                c.PreSerializeFilters.Add((swagger, httpReq) => swagger.Host = httpReq.Host.Value);
+            });
+
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "V1 Docs");
+            });
+
             app.UseSpa(spa =>
             {
                 // To learn more about options for serving an Angular SPA from ASP.NET Core,
@@ -66,6 +105,7 @@ namespace max8ng
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+
         }
     }
 }
