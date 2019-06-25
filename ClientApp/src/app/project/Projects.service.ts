@@ -17,7 +17,6 @@ export class ProjectsService {
 
     console.log('Retrieving projects');
     return this.http.get<IProject[]>(this.projectUrl)
-    .pipe(map(response => response.projects))
     .pipe(catchError(this.handleError<IProject[]>('getProjects', [])));
   }
 

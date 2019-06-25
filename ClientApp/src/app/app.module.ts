@@ -7,16 +7,18 @@ import { HttpClientModule } from '@angular/common/http';
 import { ProjectListComponent } from './project/project-list/project-list.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ProjectListComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+   declarations: [
+      AppComponent,
+      ProjectListComponent
+   ],
+   imports: [
+      BrowserModule,
+      AppRoutingModule,
+      HttpClientModule
+   ],
+   providers: [],
+   bootstrap: [
+      AppComponent
+   ]
 })
 export class AppModule { }
